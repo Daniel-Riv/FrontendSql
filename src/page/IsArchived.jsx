@@ -9,7 +9,8 @@ export const IsArchived = () => {
 
     useEffect(() => {
         const getAllNotesArchived = async () => {
-            await fetch('https://apinotesql.herokuapp.com/api/notes/archived/getArchived')
+            /* https://apinotesql.herokuapp.com */
+            await fetch('http://localhost:5000/api/notes/archived/getArchived')
                 .then(res => res.json())
                 .then(result => {
                     console.log(result)

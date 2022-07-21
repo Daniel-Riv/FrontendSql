@@ -10,14 +10,11 @@ import './cardNotes.css'
 import { CreateNotes } from '../ModalNotes/CreateNotes'
 import Swal from 'sweetalert2'
 
-export const CardNotes = ({ idNote, title, desc, category, isArchive = true, setRefresh }) => {
-
-
+export const CardNotes = ({ idNote, title, desc, categories, isArchive = true, setRefresh }) => {
 
     const [isEdit, setIsEdit] = useState(false);
     const [value, setValue] = useState({});
     const [show, setShow] = useState(false);
-
 
     const handleShow = () => {
         setValue({ idNote, title, desc });
@@ -51,9 +48,7 @@ export const CardNotes = ({ idNote, title, desc, category, isArchive = true, set
                         setRefresh(true)
                     })
             }
-
         })
-
     }
 
     const handleArchive = async () => {
@@ -79,7 +74,6 @@ export const CardNotes = ({ idNote, title, desc, category, isArchive = true, set
                 'error'
             )
         }
-
     }
 
     const handleUnArchived = async () => {
@@ -101,17 +95,20 @@ export const CardNotes = ({ idNote, title, desc, category, isArchive = true, set
                 location.reload();
             }, 1000);
         }
-
     }
 
     return (
         <>
-
             <Card className="card">
                 <Card.Body>
                     <Card.Title className="card-name">{title}</Card.Title>
                     <Card.Text className="card-desc">{desc}</Card.Text>
-                    <p>{desc}</p>
+                    {/* categorias */}
+                    {
+                        categories?.map((cat) => (
+                            <p key={cat.idCategory} >{cat.nameCategory}</p>
+                        ))
+                    }
                     {
                         isArchive ? (<Button onClick={handleUnArchived}><RiInboxUnarchiveLine className='cart-icon' /></Button>) : (<Button onClick={handleArchive}><BiBox className='cart-icon' /></Button>)
                     }

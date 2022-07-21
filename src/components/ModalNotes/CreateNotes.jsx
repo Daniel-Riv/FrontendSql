@@ -1,33 +1,48 @@
 import React, { useState, useEffect } from 'react';
-import { useForm } from '../../hooks/useForm';
+
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import './createNotes.css';
 import Swal from 'sweetalert2';
 
+import './createNotes.css';
+import { useForm } from '../../hooks/useForm';
+import { SelectCategory } from '../SelectCategory/SelectCategory';
 
 export const CreateNotes = ({ show, setShow, isEdit = false, values, setRefresh }) => {
 
-    const handleClose = () => setShow(false);
     const [error, setError] = useState("");
-    const [showError, setShowError] = useState(false)
+    const [showError, setShowError] = useState(false);
+    const [numbers, setNumbers] = useState([]);
+
     const [formValues, handleInputChange, reset, setValues] = useForm({
         title: "",
         desc: "",
+        category: ""
     });
+
+    const { title, desc, category } = formValues;
 
     useEffect(() => {
         if (isEdit) {
             setValues({ title: values.title, desc: values.desc })
         }
-
-
     }, [isEdit])
 
-    const { title, desc } = formValues;
+    useEffect(() => {
+        if (numbers.length >= 0) {
+            if (category === '') {
+            }else {
+                handleAddCategory(parseInt(category))
+            }
+        }
+    }, [category])
+
+    const handleClose = () => setShow(false);
+
     const handleSubmit = async () => {
-        const data = await fetch('https://apinotesql.herokuapp.com/api/notes/createNote', {
+        /* https://apinotesql.herokuapp.com/api/notes/createNote */
+        await fetch('https://apinotesql.herokuapp.com/api/notes/createNote', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -35,6 +50,7 @@ export const CreateNotes = ({ show, setShow, isEdit = false, values, setRefresh 
             body: JSON.stringify({
                 title: title,
                 desc: desc,
+                category: numbers
             })
         }).then(res => res.json())
             .then(data => {
@@ -49,12 +65,14 @@ export const CreateNotes = ({ show, setShow, isEdit = false, values, setRefresh 
                         `${message}`,
                         'success'
                     )
-                    location.reload();
+                    setNumbers([]);
+                    reset();
                     handleClose();
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
                 }
             })
-       
-
     }
 
     const handleEdit = async () => {
@@ -87,6 +105,12 @@ export const CreateNotes = ({ show, setShow, isEdit = false, values, setRefresh 
         }
     }
 
+    const handleAddCategory = (idCategory) => {
+        if (!numbers?.includes(idCategory)) {
+            setNumbers([...numbers, idCategory])
+        }
+    }
+
     return (
         <>
 
@@ -98,13 +122,14 @@ export const CreateNotes = ({ show, setShow, isEdit = false, values, setRefresh 
                     <Form>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <Form.Label>Title:</Form.Label>
-                            <Form.Control type="text" className='input' placeholder=" " name="title" value={title} onChange={handleInputChange} />
+                            <Form.Control type="text" className='input' placeholder="Title" name="title" value={title} onChange={handleInputChange} />
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label >Description:</Form.Label>
-                            <Form.Control type="text" className='input' placeholder=" " name="desc" value={desc} onChange={handleInputChange} />
+                            <Form.Control type="text" className='input' placeholder="Content" name="desc" value={desc} onChange={handleInputChange} />
                         </Form.Group>
+                        <SelectCategory handleInputChange={handleInputChange} category={category} />
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
