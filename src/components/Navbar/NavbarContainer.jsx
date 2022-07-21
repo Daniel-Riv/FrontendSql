@@ -24,7 +24,7 @@ export const NavbarContainer = () => {
                         onClick={handleShow}
                         >Create Note</Button>
                         <CreateNotes show={show} setShow={setShow} setRefresh={setRefresh}/>
-                        <Nav.Link as={Link} to={"/about"} >Archived notes</Nav.Link>
+                        <Nav.Link as={Link} to={"/archived"} >Archived notes</Nav.Link>
                     </Nav>
                     </Navbar.Collapse>
                 </Container>

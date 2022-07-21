@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { CardNotes } from '../components/CardNotes/CardNotes'
+import { NavbarContainer } from '../components/Navbar/NavbarContainer'
+import '../components/CardNotes/loader.css'
 
 export const IsArchived = () => {
     const [refresh, setRefresh] = useState(false)
@@ -13,9 +15,9 @@ export const IsArchived = () => {
                     console.log(result)
                     const { data } = result;
                     if (result.success === false) {
-                    }else{
+                    } else {
                         setIsArchived(data)
-                        
+
                     }
 
                 })
@@ -26,15 +28,22 @@ export const IsArchived = () => {
     if (archived.length === 0) {
 
         return (
-            <h1>Loading</h1>
+            <div className="loader"/>
         )
 
     }
     return (
         <>
-            {
-                archived.map(noteArchived => (<CardNotes key={noteArchived.idNote} setRefresh={setRefresh} {...noteArchived} />))
-            }
+            <NavbarContainer />
+            <section className="container container-fluid">
+                <div className="row" style={{ padding: 10 + "px" }}>
+                    {
+                        archived.map(noteArchived => (<CardNotes key={noteArchived.idNote} setRefresh={setRefresh} {...noteArchived} />))
+                    }
+                </div>
+
+            </section>
+
         </>
     )
 }

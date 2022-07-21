@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import './createNotes.css';
-
+import Swal from 'sweetalert2';
 
 
 export const CreateNotes = ({ show, setShow, isEdit = false, values, setRefresh }) => {
@@ -40,17 +40,20 @@ export const CreateNotes = ({ show, setShow, isEdit = false, values, setRefresh 
             .then(data => {
                 console.log(data)
                 const { success, message } = data;
-                if (data.success === false) {
+                if (success === false) {
                     setError(data.error)
                     setShowError(true)
                 } else {
-                    setError(message);
-                    setShowError(true);
-                    setRefresh(true)
+                    Swal.fire(
+                        'Success!',
+                        `${message}`,
+                        'success'
+                    )
                     location.reload();
                     handleClose();
                 }
             })
+       
 
     }
 
@@ -72,6 +75,11 @@ export const CreateNotes = ({ show, setShow, isEdit = false, values, setRefresh 
                         setError(data.error)
                         setShowError(true)
                     } else {
+                        Swal.fire(
+                            'Success!',
+                            `${message}`,
+                            'success'
+                        )
                         setRefresh(true)
                         handleClose();
                     }
@@ -79,36 +87,36 @@ export const CreateNotes = ({ show, setShow, isEdit = false, values, setRefresh 
         }
     }
 
-return (
-    <>
+    return (
+        <>
 
-        <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-                <Modal.Title>Create Note</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <Form>
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label>Title:</Form.Label>
-                        <Form.Control type="text" className='input' placeholder=" " name="title" value={title} onChange={handleInputChange} />
-                    </Form.Group>
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Create Note</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <Form.Label>Title:</Form.Label>
+                            <Form.Control type="text" className='input' placeholder=" " name="title" value={title} onChange={handleInputChange} />
+                        </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
-                        <Form.Label >Description:</Form.Label>
-                        <Form.Control type="text" className='input' placeholder=" " name="desc" value={desc} onChange={handleInputChange} />
-                    </Form.Group>
-                </Form>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button className='btn' onClick={handleClose}>
-                    Close
-                </Button>
-                {
-                    isEdit ? (<Button onClick={ handleEdit}>Edit</Button>) : (<Button onClick={handleSubmit}>Save</Button>)
-                }
+                        <Form.Group className="mb-3" controlId="formBasicPassword">
+                            <Form.Label >Description:</Form.Label>
+                            <Form.Control type="text" className='input' placeholder=" " name="desc" value={desc} onChange={handleInputChange} />
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button className='btn' onClick={handleClose}>
+                        Close
+                    </Button>
+                    {
+                        isEdit ? (<Button onClick={handleEdit}>Edit</Button>) : (<Button onClick={handleSubmit}>Save</Button>)
+                    }
 
-            </Modal.Footer>
-        </Modal>
-    </>
-)
+                </Modal.Footer>
+            </Modal>
+        </>
+    )
 }

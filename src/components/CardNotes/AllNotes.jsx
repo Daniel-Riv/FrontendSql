@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { CardNotes } from './CardNotes';
+import './loader.css'
 
 export const AllNotes = () => {
     const [notes, setNotes] = useState([])
@@ -20,7 +21,7 @@ export const AllNotes = () => {
     if(notes.length === 0) {
         
         return(
-            <h1>Loading</h1>
+            <div className="loader"/>
         ) 
     }
   return (
