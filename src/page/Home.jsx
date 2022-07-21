@@ -9,7 +9,6 @@ export const Home = () => {
         <>
         <NavbarContainer/>
         <AllNotes/>
-        <h1>Home</h1>
         </>
     )
 }

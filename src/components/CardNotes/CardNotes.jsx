@@ -104,6 +104,7 @@ export const CardNotes = ({ idNote, title, desc, categories, isArchive = true, s
                     <Card.Title className="card-name">{title}</Card.Title>
                     <Card.Text className="card-desc">{desc}</Card.Text>
                     {/* categorias */}
+                    <Card.Title className="card-name">Categories</Card.Title>
                     {
                         categories?.map((cat) => (
                             <p key={cat.idCategory} >{cat.nameCategory}</p>

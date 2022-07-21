@@ -23,7 +23,7 @@ export const AllNotes = () => {
             await fetch('https://apinotesql.herokuapp.com/api/notes/')
                 .then(res => res.json())
                 .then(result => {
-                    console.log(result)
+                    
                     const { data } = result;
                     setNotes(data)
                     setRefresh(false)
@@ -33,11 +33,10 @@ export const AllNotes = () => {
     }, [refresh, setRefresh, setNotes]);
 
     const handleFilterCategory=async(idNote)=>{
-        console.log(idNote)
         await fetch(`https://apinotesql.herokuapp.com/api/notes/categories/filter/${idNote}`)
         .then(res => res.json())
         .then(result => {
-            console.log(result)
+            
 
             const { success,data } = result;
             if (!data) {
@@ -49,7 +48,7 @@ export const AllNotes = () => {
             }
         })
     }
-    console.log(notes)
+   
 
     if (notes.length === 0) {
 

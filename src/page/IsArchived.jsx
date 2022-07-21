@@ -13,7 +13,6 @@ export const IsArchived = () => {
             await fetch('http://localhost:5000/api/notes/archived/getArchived')
                 .then(res => res.json())
                 .then(result => {
-                    console.log(result)
                     const { data } = result;
                     if (result.success === false) {
                     } else {
@@ -25,7 +24,7 @@ export const IsArchived = () => {
         }
         getAllNotesArchived()
     }, [setIsArchived])
-    console.log(archived)
+
     if (archived.length === 0) {
 
         return (

@@ -54,7 +54,6 @@ export const CreateNotes = ({ show, setShow, isEdit = false, values, setRefresh 
             })
         }).then(res => res.json())
             .then(data => {
-                console.log(data)
                 const { success, message } = data;
                 if (success === false) {
                     setError(data.error)
